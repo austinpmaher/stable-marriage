@@ -15,4 +15,4 @@ Solution to the stable marriage problem in Go using the Gale-Shapley algorithm.
         }
     }
 
-pseudocode from [here|https://towardsdatascience.com/gale-shapley-algorithm-simply-explained-caa344e643c2]
+pseudocode from [here](https://towardsdatascience.com/gale-shapley-algorithm-simply-explained-caa344e643c2)
