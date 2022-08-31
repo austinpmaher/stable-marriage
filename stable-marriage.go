@@ -148,7 +148,7 @@ func solve(lhs PreferenceMatrix, rhs PreferenceMatrix) MarriagePlan {
 		}
 		nextChoiceIndex, found := cursorFor(rhsWorklist, nextChoiceSubject)
 		if !found {
-			panic(fmt.Sprint("Cannot find a cursor for %s in %p", nextChoiceSubject, &rhsWorklist))
+			panic(fmt.Sprintf("Cannot find a cursor for %s in %p", nextChoiceSubject, &rhsWorklist))
 		}
 		nextChoiceCursor := &rhsWorklist[nextChoiceIndex]
 
