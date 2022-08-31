@@ -1,8 +1,26 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
+
+type StableMarriageTestData struct {
+	testcase     string
+	men, women   PreferenceMatrix
+	expectedPlan MarriagePlan
+	isValid      bool
+}
+
+func runTest(td StableMarriageTestData, t *testing.T) {
+	var result = IsStableSolution(td.men, td.women, td.expectedPlan)
+
+	if result != td.isValid {
+		t.Error(fmt.Sprintf("%s expected %t but got %t", td.testcase, td.isValid, result))
+	} else {
+		t.Log(fmt.Sprintf("%s passed", td.testcase))
+	}
+}
 
 func TestIsStable(t *testing.T) {
 
@@ -16,39 +34,39 @@ func TestIsStable(t *testing.T) {
 		"D": {"B", "A"},
 	}
 
-	var expected = []Proposal{
-		{party1: "A", party2: "C"},
-		{party1: "B", party2: "D"},
-	}
+	runTest(StableMarriageTestData{
+		testcase: "valid test",
+		men:      MEN,
+		women:    WOMEN,
+		expectedPlan: MarriagePlan{
+			{lhs: "A", rhs: "C"},
+			{lhs: "B", rhs: "D"},
+		},
+		isValid: true,
+	},
+		t)
 
-	var stable = IsStableSolution(MEN, WOMEN, expected)
-	if !stable {
-		t.Error("stable returned false")
-	} else {
-		t.Log("ok")
-	}
+	runTest(StableMarriageTestData{
+		testcase: "invalid test",
+		men:      MEN,
+		women:    WOMEN,
+		expectedPlan: MarriagePlan{
+			{lhs: "A", rhs: "C"},
+			{lhs: "B", rhs: "C"},
+		},
+		isValid: false,
+	},
+		t)
 
-	var invalid = []Proposal{
-		{party1: "A", party2: "C"},
-		{party1: "B", party2: "C"},
-	}
-
-	var isValid = IsStableSolution(MEN, WOMEN, invalid)
-	if !isValid {
-		t.Log("ok")
-	} else {
-		t.Error("isInValid returned ok")
-	}
-
-	var unstable = []Proposal{
-		{party1: "A", party2: "D"},
-		{party1: "B", party2: "C"},
-	}
-
-	var isStable = IsStableSolution(MEN, WOMEN, unstable)
-	if !isStable {
-		t.Log("ok")
-	} else {
-		t.Error("unstable returned ok")
-	}
+	runTest(StableMarriageTestData{
+		testcase: "unstable test",
+		men:      MEN,
+		women:    WOMEN,
+		expectedPlan: MarriagePlan{
+			{lhs: "A", rhs: "D"},
+			{lhs: "B", rhs: "C"},
+		},
+		isValid: false,
+	},
+		t)
 }
