@@ -122,7 +122,9 @@ func cursorFor0(worklist Worklist, subject string) (*PreferenceCursor, bool) {
 }
 
 func cursorFor(worklist Worklist, subject string) (int, bool) {
-	// TODO: figure out why I can't get cursorFor to return a pointer to a PreferenceCursor
+	// returning indexes works around a problem with the worklist
+	// the incoming Worklist ([]PreferenceCursor) isn't sharing the
+	// underlying array with the caller so the & returns the wrong address
 	for idx, value := range worklist {
 		if value.subject == subject {
 			return idx, true
