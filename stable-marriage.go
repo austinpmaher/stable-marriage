@@ -177,7 +177,7 @@ func solve(lhs PreferenceMatrix, rhs PreferenceMatrix) *MarriagePlan {
 
 	result := make(MarriagePlan, len(lhsWorklist))
 	for idx, cursor := range lhsWorklist {
-		proposal := result[idx]
+		proposal := &result[idx]
 		proposal.lhs = cursor.subject
 		proposal.rhs = cursor.currentChoice
 	}
