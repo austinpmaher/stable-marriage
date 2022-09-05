@@ -32,8 +32,12 @@ var WOMEN = map[string][]string{
 
 func main() {
 	var plan = solve(MEN, WOMEN)
-	ok := IsStableSolution(MEN, WOMEN, plan)
-	fmt.Println(fmt.Sprintf("solution found. stable = %t", ok))
+	ok, reason := IsStableSolution(MEN, WOMEN, *plan)
+	if ok {
+		fmt.Println(fmt.Sprintf("stable solution found. %s", reason))
+	} else {
+		fmt.Println(fmt.Sprintf("unstable / invalid solution found. %s", reason))
+	}
 }
 
 type PreferenceCursor struct {
@@ -133,7 +137,7 @@ func cursorFor(worklist Worklist, subject string) (int, bool) {
 	return -1, false
 }
 
-func solve(lhs PreferenceMatrix, rhs PreferenceMatrix) MarriagePlan {
+func solve(lhs PreferenceMatrix, rhs PreferenceMatrix) *MarriagePlan {
 	var lhsWorklist = createWorklist(lhs)
 	var rhsWorklist = createWorklist(rhs)
 
@@ -178,7 +182,7 @@ func solve(lhs PreferenceMatrix, rhs PreferenceMatrix) MarriagePlan {
 		proposal.rhs = cursor.currentChoice
 	}
 
-	return result
+	return &result
 }
 
 func indexOf(slice []string, item string) int {
@@ -226,10 +230,10 @@ func isCompleteSolution(lhsPrefs PreferenceMatrix, rhsPrefs PreferenceMatrix, pl
 	return true
 }
 
-func IsStableSolution(lhsPrefs PreferenceMatrix, rhsPrefs PreferenceMatrix, plan MarriagePlan) bool {
+func IsStableSolution(lhsPrefs PreferenceMatrix, rhsPrefs PreferenceMatrix, plan MarriagePlan) (bool, string) {
 
 	if !isCompleteSolution(lhsPrefs, rhsPrefs, plan) {
-		return false
+		return false, "not complete"
 	}
 
 	var lhsRejects = make(map[string][]string)
@@ -247,10 +251,10 @@ func IsStableSolution(lhsPrefs PreferenceMatrix, rhsPrefs PreferenceMatrix, plan
 		var leftRejects = lhsRejects[left]
 		for _, preferedChoice := range leftRejects {
 			if indexOf(rhsRejects[preferedChoice], left) >= 0 {
-				return false
+				return false, fmt.Sprintf("%s would rather be with %s and vice versa", left, preferedChoice)
 			}
 		}
 	}
 
-	return true
+	return true, "ok"
 }
