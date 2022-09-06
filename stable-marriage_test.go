@@ -13,10 +13,10 @@ type StableMarriageTestData struct {
 }
 
 func runTest(td StableMarriageTestData, t *testing.T) {
-	var result = IsStableSolution(td.men, td.women, td.expectedPlan)
+	var result, details = IsStableSolution(td.men, td.women, td.expectedPlan)
 
 	if result != td.isValid {
-		t.Error(fmt.Sprintf("%s expected %t but got %t", td.testcase, td.isValid, result))
+		t.Error(fmt.Sprintf("%s expected %t but got %t. %s", td.testcase, td.isValid, result, details))
 	} else {
 		t.Log(fmt.Sprintf("%s passed", td.testcase))
 	}
