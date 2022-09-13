@@ -31,7 +31,7 @@ var WOMEN = map[string][]string{
 */
 
 func main() {
-	var plan = solve(MEN, WOMEN)
+	var plan = Solve(MEN, WOMEN)
 	ok, reason := IsStableSolution(MEN, WOMEN, *plan)
 	if ok {
 		fmt.Println(fmt.Sprintf("stable solution found. %s", reason))
@@ -137,7 +137,7 @@ func cursorFor(worklist Worklist, subject string) (int, bool) {
 	return -1, false
 }
 
-func solve(lhs PreferenceMatrix, rhs PreferenceMatrix) *MarriagePlan {
+func Solve(lhs PreferenceMatrix, rhs PreferenceMatrix) *MarriagePlan {
 	var lhsWorklist = createWorklist(lhs)
 	var rhsWorklist = createWorklist(rhs)
 
@@ -166,8 +166,10 @@ func solve(lhs PreferenceMatrix, rhs PreferenceMatrix) *MarriagePlan {
 			// is lhs a better match for nextChoice than her current choice
 			if nextChoiceCursor.prefers(lhsSubject, rhsCurrentChoice) {
 				otherCursorIndex, _ := cursorFor(lhsWorklist, rhsCurrentChoice)
-				otherCursor := &rhsWorklist[otherCursorIndex]
+				otherCursor := &lhsWorklist[otherCursorIndex]
+				fmt.Printf("Clear engagement %s with %s\n", rhsCurrentChoice, nextChoiceSubject)
 				otherCursor.currentChoice = NO_CHOICE
+				fmt.Printf("Engage %s with %s\n", lhsSubject, nextChoiceSubject)
 				engage(lhsCursor, nextChoiceCursor)
 			} else {
 				// go around the loop again and try their next choice
