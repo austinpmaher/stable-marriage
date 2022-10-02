@@ -43,6 +43,7 @@ func runSolutionTest(tc StableMarriageSolutionTestCase, t *testing.T) {
 		t.Error(fmt.Sprintf("%s expected %t but got %t. %s", tc.testcase, tc.isValid, result, details))
 	} else {
 		t.Log(fmt.Sprintf("%s passed", tc.testcase))
+		fmt.Printf("%+v\n", foundPlan)
 	}
 }
 
