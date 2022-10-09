@@ -53,8 +53,17 @@ var WOMEN = map[string][]string{
 
 func main() {
 	var plan = Solve(MEN, WOMEN)
-	fmt.Printf("%s\n", plan)
+	fmt.Printf("The man-optimal plan:\n%s\n", plan)
 	ok, reason := IsStableSolution(MEN, WOMEN, *plan)
+	if ok {
+		fmt.Println(fmt.Sprintf("stable solution found. %s", reason))
+	} else {
+		fmt.Println(fmt.Sprintf("unstable / invalid solution found. %s", reason))
+	}
+
+	plan = Solve(WOMEN, MEN)
+	fmt.Printf("The women-optimal plan:\n%s\n", plan)
+	ok, reason = IsStableSolution(WOMEN, MEN, *plan)
 	if ok {
 		fmt.Println(fmt.Sprintf("stable solution found. %s", reason))
 	} else {
