@@ -1,0 +1,12 @@
+#emacs detritus
+*~
+
+# Binaries for programs and plugins
+stable-marriage
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+escape-analysis-working.txt
